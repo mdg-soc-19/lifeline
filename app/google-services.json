@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "277268281599",
+    "firebase_url": "https://lifeline-1d37e.firebaseio.com",
+    "project_id": "lifeline-1d37e",
+    "storage_bucket": "lifeline-1d37e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277268281599:android:11c4ab023e01af9b59b4ca",
+        "android_client_info": {
+          "package_name": "com.example.lifeline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277268281599-ept8m8c55d6vsani1k31l2atcka0v61r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lifeline",
+            "certificate_hash": "30d8a4e1648e6e3bcd72314e6e86a6c6617e1e67"
+          }
+        },
+        {
+          "client_id": "277268281599-oqlia77ks2v9gvlrbj3rgbv3n7ta4d3g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8uUgDRzAsa9goL0zWfiZczI11t1giz1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277268281599-oqlia77ks2v9gvlrbj3rgbv3n7ta4d3g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
