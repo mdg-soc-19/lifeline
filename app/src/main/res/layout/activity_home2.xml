@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="157dp"
+        android:layout_height="82dp"
+        android:text="home screen"
+        tools:layout_editor_absoluteX="97dp"
+        tools:layout_editor_absoluteY="215dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,5 +7,11 @@
     tools:context=".MainActivity">
 
 
-
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="main activity"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="215dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

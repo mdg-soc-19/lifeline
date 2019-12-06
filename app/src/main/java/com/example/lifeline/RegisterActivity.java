@@ -31,12 +31,12 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mName = findViewById(R.id.editText3);
-        mEnrollment_No = findViewById(R.id.editText4);
-        mEmail = findViewById(R.id.editText5);
-        mPassword = findViewById(R.id.editText6);
-        mRegisterBtn = findViewById(R.id.button2);
-        mLoginBtn = findViewById(R.id.button);
+        mName = findViewById(R.id.Name);
+        mEnrollment_No = findViewById(R.id.Enrollment_no);
+        mEmail = findViewById(R.id.Email);
+        mPassword = findViewById(R.id.Password);
+        mRegisterBtn = findViewById(R.id.RegisterBtn);
+        mLoginBtn = findViewById(R.id.LoginBtn);
 
         fAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar3);
@@ -74,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(RegisterActivity.this, "User Created", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                         }
                         else{
                             Toast.makeText(RegisterActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
