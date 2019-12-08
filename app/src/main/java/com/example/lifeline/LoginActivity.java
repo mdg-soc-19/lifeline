@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.LoginBtn);
         mCreateBtn = findViewById(R.id.createText);
         fAuth = FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.progressBar);
 
 
 
@@ -49,18 +50,18 @@ public class LoginActivity extends AppCompatActivity {
                final String password = mPassword.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-
-//                    mEmail.setError("Email is required");
+//                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
 //                    return;
+
+                    mEmail.setError("Email is required");
+                    return;
                 }
 
                 if(TextUtils.isEmpty(password)){
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-//                    mPassword.setError("Password is required");
+//                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
 //                    return;
+                    mPassword.setError("Password is required");
+                    return;
                 }
                 if(password.length() <6) {
                     mPassword.setError("Password must be >= 6 characters");
@@ -79,14 +80,22 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        if(!task.isSuccessful()){
-
+                        if(task.isSuccessful()){
 
                             Toast.makeText(LoginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            mLoginBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
+                                }
+                            });
+
                         }
                         else{
                             Toast.makeText(LoginActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }
 
                     }
@@ -96,13 +105,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-
-            }
-        });
+//        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v)  {
+//                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+//
+//            }
+//        });
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
