@@ -5,18 +5,18 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nev_home"
+            android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
             android:title="Home" />
         <item
-            android:id="@+id/nev_token_status"
+            android:id="@+id/nav_token_status"
             android:title="Token Status" />
         <item
-            android:id="@+id/nev_settings"
+            android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
             android:title="Settings" />
         <item
-            android:id="@+id/nev_logout"
+            android:id="@+id/nav_logout"
             android:title="Log out" />
     </group>
 

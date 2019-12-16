@@ -32,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth fAuth;
     private ProgressBar progressBar;
 
+
     private DatabaseReference mDatabase;
 
     @Override
