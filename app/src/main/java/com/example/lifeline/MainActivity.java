@@ -23,7 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.google.android.gms.common.util.SharedPreferencesUtils;
 import com.google.android.material.circularreveal.CircularRevealRelativeLayout;
 import com.google.android.material.navigation.NavigationView;
@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //       private Button button;
 
+    private long backPressedTime;
+    private Toast backToast;
 
 
 
@@ -147,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_token_status) {
             getSupportActionBar().setTitle("Token Status");
             getSupportActionBar().setHomeButtonEnabled(true);
-            fragment = new TokenStatusFragment();
+            fragment = new tokenStatusFragment();
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.addToBackStack(null);
@@ -220,12 +222,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
+
             } else {
 
 
                 super.onBackPressed();
             }
         }
+
+
 
 
 //    @Override
