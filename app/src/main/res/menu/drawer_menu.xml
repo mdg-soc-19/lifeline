@@ -10,14 +10,16 @@
             android:title="Home" />
         <item
             android:id="@+id/nav_token_status"
-            android:title="Token Status" />
+            android:title="Token Status"
+            android:icon="@drawable/token"/>
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings"
-            android:title="Settings" />
+            android:icon="@drawable/edit_profile"
+            android:title="Edit Profile" />
         <item
             android:id="@+id/nav_logout"
-            android:title="Log out" />
+            android:title="Log out"
+            android:icon="@drawable/logout1"/>
     </group>
 
 

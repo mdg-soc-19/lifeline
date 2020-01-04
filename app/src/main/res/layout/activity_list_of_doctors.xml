@@ -7,6 +7,9 @@
     android:id="@+id/drawer_layout"
     tools:context=".ListOfDoctorsActivity"
     tools:openDrawer="start">
+        <include
+                android:id="@+id/toolbar3"
+                layout="@layout/toolbar"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -18,21 +21,21 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+<!--        <com.google.android.material.appbar.AppBarLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:theme="@style/AppTheme.AppBarOverlay">-->
 
-        </com.google.android.material.appbar.AppBarLayout>
+<!--        </com.google.android.material.appbar.AppBarLayout>-->
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#FF80AB"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            tools:layout_editor_absoluteX="55dp"
-            tools:layout_editor_absoluteY="0dp" />
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            android:background="#FF80AB"-->
+<!--            app:popupTheme="@style/AppTheme.PopupOverlay"-->
+<!--            tools:layout_editor_absoluteX="55dp"-->
+<!--            tools:layout_editor_absoluteY="0dp" />-->
 
         <!--        <com.google.android.material.navigation.NavigationView-->
 <!--            android:id="@+id/nev_view"-->

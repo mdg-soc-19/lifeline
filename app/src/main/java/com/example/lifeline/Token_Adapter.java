@@ -15,11 +15,11 @@ public class Token_Adapter extends RecyclerView.Adapter<Token_Adapter.MyViewHold
 
 
     private tokenStatusFragment context;
-    private ArrayList<Token> Doctors;
+    private ArrayList<Token> Doctors_Status;
     public Token_Adapter(tokenStatusFragment c, ArrayList<Token> u)
     {
         context = c;
-        Doctors = u;
+        Doctors_Status = u;
     }
 
     @NonNull
@@ -31,8 +31,9 @@ public class Token_Adapter extends RecyclerView.Adapter<Token_Adapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull Token_Adapter.MyViewHolder holder, int position) {
 
-        holder.Doctor_name.setText(String.valueOf(Doctors.get(position).getDoctor_name()));
-        holder.token_no.setText(String.valueOf(Doctors.get(position).getToken_No()));
+        holder.Doctor_name.setText(String.valueOf(Doctors_Status.get(position).getDoctor_name()));
+        holder.token_no.setText(String.valueOf(Doctors_Status.get(position).getToken_No()));
+
 
 
 
@@ -40,7 +41,7 @@ public class Token_Adapter extends RecyclerView.Adapter<Token_Adapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return Doctors.size();
+        return Doctors_Status.size();
     }
 
 

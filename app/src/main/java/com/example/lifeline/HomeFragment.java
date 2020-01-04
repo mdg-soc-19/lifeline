@@ -68,16 +68,4 @@ public class HomeFragment extends Fragment {
 
         return v;
     }
-
-
-
-
-
-//    @Override
-//    public void onBackPressed () {
-//
-//        super.onBackPressed();
-//    }
-
-
 }

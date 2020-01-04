@@ -26,11 +26,14 @@ public class LoginActivity extends AppCompatActivity {
     TextView mCreateBtn;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
+    SharedPreferenceConfig preferenceConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
+
+        preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
 
         mEmail = findViewById(R.id.Email);
         mPassword = findViewById(R.id.Password);
@@ -39,6 +42,11 @@ public class LoginActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
 
+        if (preferenceConfig.readLoginStatus()){
+            startActivity(new Intent(this,MainActivity.class));
+            finish();
+
+        }
 
 
 
@@ -50,16 +58,10 @@ public class LoginActivity extends AppCompatActivity {
                final String password = mPassword.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
-//                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-//                    return;
-
                     mEmail.setError("Email is required");
                     return;
                 }
-
                 if(TextUtils.isEmpty(password)){
-//                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-//                    return;
                     mPassword.setError("Password is required");
                     return;
                 }
@@ -68,10 +70,6 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-//                if(password.length() <6) {
-//                    mPassword.setError("Password must be >= 6 characters");
-//                    return;
-//                }
                 progressBar.setVisibility(View.VISIBLE);
 
                 // Authenticate the user
@@ -83,35 +81,29 @@ public class LoginActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
 
                             Toast.makeText(LoginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            preferenceConfig.writeLoginStatus(true);
+                            finish();
                             mLoginBtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
-
+                                    preferenceConfig.writeLoginStatus(true);
+                                    finish();
                                 }
                             });
-
                         }
                         else{
                             Toast.makeText(LoginActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
-
                     }
                 });
-
-
             }
         });
 
-//        mLoginBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v)  {
-//                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-//
-//            }
-//        });
+
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,14 +111,5 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-//        mCreateBtn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-//            }
-//
-//        });
-
-
     }
 }

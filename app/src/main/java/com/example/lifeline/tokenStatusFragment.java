@@ -3,14 +3,19 @@ package com.example.lifeline;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import android.widget.TextView;
 
@@ -25,10 +30,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class tokenStatusFragment extends Fragment {
+public class tokenStatusFragment extends AppCompatActivity {
 
 
-//    private TextView Doctor, token;
+    private TextView doctor, token;
 
     private DatabaseReference mDatabase;
     private CardView cardView;
@@ -37,49 +42,41 @@ public class tokenStatusFragment extends Fragment {
     private Token_Adapter adapter;
 
 
-    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_token_status2, container, false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_token_status2);
+
+        Toolbar toolbar = findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        doctor =  findViewById(R.id.mydoctor);
+        token =  findViewById(R.id.mytoken);
 
 
-//        Doctor = (TextView) v.findViewById(R.id.token);
-//        token = (TextView) v.findViewById(R.id.token);
+        String Last_Doctor_name = getIntent().getStringExtra("name");
+        Log.e("name", "123" + Last_Doctor_name);
+        int Last_Token_no = getIntent().getIntExtra("token", 0);
+        Log.e("token", "123" + Last_Token_no);
+
+        doctor.setText("" + Last_Doctor_name);
+
+        token.setText("" + ((Last_Token_no)+1));
 
 
 
-//        cardView = (CardView) v.findViewById(R.id.current_token_cardview);
-//        cardView.setAdapter(adapter);
 
-
-        recyclerView = (RecyclerView) v.findViewById(R.id.token_recycler);
+        recyclerView = findViewById(R.id.token_recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
 
         list = new ArrayList<Token>();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Doctors");
-
-//        Query query = FirebaseDatabase.getInstance().getReference().child("Doctors")
-//                .orderByChild("Doctor_name")
-//                .equalTo("Doctor_name");
-//        query.addListenerForSingleValueEvent(ValueEventListener);
-
-
-//        ValueEventListener valueEventListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        }
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Doctors_Status");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -94,12 +91,10 @@ public class tokenStatusFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), "opss.. Something is wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(tokenStatusFragment.this, "opss.. Something is wrong", Toast.LENGTH_SHORT).show();
 
             }
         });
 
-
-        return v;
     }
 }
