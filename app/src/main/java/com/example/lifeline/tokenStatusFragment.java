@@ -1,5 +1,6 @@
 package com.example.lifeline;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,7 @@ public class tokenStatusFragment extends AppCompatActivity {
     private Token_Adapter adapter;
 
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +56,7 @@ public class tokenStatusFragment extends AppCompatActivity {
         doctor =  findViewById(R.id.mydoctor);
         token =  findViewById(R.id.mytoken);
 
-
-        String Last_Doctor_name = getIntent().getStringExtra("name");
+        final String Last_Doctor_name = getIntent().getStringExtra("name");
         Log.e("name", "123" + Last_Doctor_name);
         int Last_Token_no = getIntent().getIntExtra("token", 0);
         Log.e("token", "123" + Last_Token_no);
@@ -63,6 +64,27 @@ public class tokenStatusFragment extends AppCompatActivity {
         doctor.setText("" + Last_Doctor_name);
 
         token.setText("" + ((Last_Token_no)+1));
+//        mDatabase = FirebaseDatabase.getInstance().getReference().child("Doctors_last_reg");
+//        mDatabase.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()){
+//                    if (Last_Doctor_name.equals(dataSnapshot2.getValue(Last_token.class).getLast_Doctor_name())){
+//                        String name = dataSnapshot2.getValue(Last_token.class).getLast_Doctor_name();
+//                        int Token = dataSnapshot2.getValue(Last_token.class).getLast_Token_No()+1;
+//                        doctor.setText(name);
+//                        token.setText(Token);
+//
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
 
 
 

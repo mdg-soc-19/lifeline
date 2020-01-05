@@ -48,6 +48,7 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
         holder.dpt.setText(Doctors_List.get(position).getDoc_dpt());
         holder.name.setText(Doctors_List.get(position).getDoc_name());
         Picasso.with(context).load(Doctors_List.get(position).getDoc_profile()).into(holder.image);
+
 //        holder.enrollment.setText(users.get(position).getEnrollment());
 //        holder.branch.setText(users.get(position).getBranch());
 
@@ -62,8 +63,6 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
                 Log.e("DOCTORNAME","YOYOYOYOYO"+DoctorName);
 
                 intent.putExtra("image", Doctors_List.get(position).getDoc_profile());
-
-
                 intent.putExtra("name", Doctors_List.get(position).getDoc_name());
                 intent.putExtra("graduate", Doctors_List.get(position).getDoc_graduate());
                 intent.putExtra("dpt", Doctors_List.get(position).getDoc_dpt());

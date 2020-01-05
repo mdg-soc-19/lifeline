@@ -16,17 +16,26 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
+    DatabaseReference mDatabase;
+    TextView name,email;
     private Button btn;
     private SharedPreferenceConfig preferenceConfig;
     private DrawerLayout drawer;
@@ -45,8 +54,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
 
+        name = findViewById(R.id.profile_name);
+        email = findViewById(R.id.profile_email);
+
+
+
         NavigationView navigationView = findViewById(R.id.nev_view);
         navigationView.setNavigationItemSelectedListener(this);
+//        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+//        mDatabase.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                String name1 = dataSnapshot.child("name").getValue().toString();
+//                Log.e("",""+name1);
+//                String email1 = dataSnapshot.child("email").getValue().toString();
+//                Log.e("",""+email1);
+//                name.setText(name1);
+//                email.setText(email1);
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -78,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_token_status) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
+//            Intent transfer = new Intent(MainActivity.this, tokenStatusFragment.class);
+//            transfer.putExtra("name", dataSnapshot1.getValue(Last_token.class).getLast_Doctor_name());
+//            transfer.putExtra("token", dataSnapshot1.getValue(Last_token.class).getLast_Token_No());
             startActivity(new Intent(getApplicationContext(),tokenStatusFragment.class));
 
         }

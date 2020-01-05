@@ -70,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/Password" />
 
     <EditText
-        android:id="@+id/Email"
+        android:id="@+id/editmail"
         android:layout_width="298dp"
         android:layout_height="60dp"
         android:autoText="false"
@@ -94,7 +94,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Email"
+        app:layout_constraintTop_toBottomOf="@+id/editmail"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView

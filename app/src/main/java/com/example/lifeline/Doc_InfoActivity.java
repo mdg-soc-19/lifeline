@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+import com.squareup.picasso.Picasso;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,31 +32,23 @@ public class Doc_InfoActivity extends AppCompatActivity {
     ImageView Image;
     TextView name, graduate, dpt, doc_info;
     String Doctorname, Doctorgraduate, Doctordpt, Docimage, Docinfo;
-    //    int Docimage;
     Button button;
-    //    private ArrayList<Token> list;
-//    private Token_Adapter adapter;
     private DatabaseReference mDatabase;
-
-//    private TextView textView;
+    SharedPreferenceConfig preferenceConfig;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doc_info);
 
-//        FragmentManager manager = getSupportFragmentManager();
-//        final tokenStatusFragment m4 = new tokenStatusFragment();
-//        FragmentManager manager = getSupportFragmentManager();
-//        final tokenStatusFragment m4 = new tokenStatusFragment();
-////        manager.beginTransaction().replace(R.id.fram1234,tokenStatusFragment).commit();
-//        final FragmentTransaction t = manager.beginTransaction();
+        preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
 
-
-//        list = new ArrayList<Token>();
-
-//        Intent intent = getIntent();
-//        textView = (TextView) findViewById(R.id.doc_info);
+//        if (preferenceConfig.readButtonStatus()){
+//            Toast.makeText(this, "You can't take more than 1 appointment", Toast.LENGTH_SHORT).show();
+//            finish();
+//
+//        }
+        doc_info = findViewById(R.id.doc_info);
         Image = findViewById(R.id.image);
         name = findViewById(R.id.name);
         graduate = findViewById(R.id.graduate);
@@ -67,35 +62,33 @@ public class Doc_InfoActivity extends AppCompatActivity {
         Log.e("jhfklsdajflk;", "dsfnhkdjsh" + Doctorname);
         graduate.setText(Doctorgraduate);
         dpt.setText(Doctordpt);
-//        doc_info.setText(Docinfo);
-//        textView.setText((CharSequence) doc_info);
+        
+        Picasso.with(this).load(Docimage).into(Image);
 
-//        mDatabase = FirebaseDatabase.getInstance().getReference().child("Doctors_List");
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-//                    String value = dataSnapshot1.getValue(String.class);
-//                    textView.setText(value);
-//                }
-////                textView.setText(doc_info);
-////                adapter = new Doc_Adapter(Doc_InfoActivity.this, doc_info);
-////                String doc_info = dataSnapshot.child("doc_info").getValue().toString();
-////                textView.setText(doc_info);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Doctors_List");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()) {
+                    String value = dataSnapshot2.child("doc_info").getValue().toString();
+                    doc_info.setText(value);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         button = findViewById(R.id.bookbtn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("Doctors_last_reg");
                 mDatabase.addValueEventListener(new ValueEventListener() {
@@ -114,6 +107,7 @@ public class Doc_InfoActivity extends AppCompatActivity {
                                 transfer.putExtra("token", dataSnapshot1.getValue(Last_token.class).getLast_Token_No());
                                 startActivity(transfer);
 
+
                             }
                         }
                     }
@@ -123,7 +117,13 @@ public class Doc_InfoActivity extends AppCompatActivity {
 
                     }
                 });
+
+//                preferenceConfig.writebuttonStatus(true);
+//                button.setEnabled(false);
+//                finish();
+                Toast.makeText(Doc_InfoActivity.this, "Done", Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 }

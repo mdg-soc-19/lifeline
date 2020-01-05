@@ -55,7 +55,6 @@ public class ListOfDoctorsActivity extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String doc_info=dataSnapshot.child("doc_info").getValue().toString();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Doctor u = dataSnapshot1.getValue(Doctor.class);
                     list.add(u);
