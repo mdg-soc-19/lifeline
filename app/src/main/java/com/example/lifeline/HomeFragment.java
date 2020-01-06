@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class HomeFragment extends Fragment {
     private Button btn;
     TextView textView;
     DatabaseReference mdatabase;
+    ProgressBar progressBar;
 
     private long backPressedTime;
     private Toast backToast;
@@ -46,23 +48,25 @@ public class HomeFragment extends Fragment {
          View v = inflater.inflate(R.layout.fragment_home,container,false);
 
          button = (Button) v.findViewById(R.id.listbtn);
-         textView = (TextView) v.findViewById(R.id.notices);
+//         textView = (TextView) v.findViewById(R.id.notices);
+//         progressBar = (ProgressBar) v.findViewById(R.id.notice_progressBar);
 
-         mdatabase = FirebaseDatabase.getInstance().getReference().child("Notices").child("1");
-         mdatabase.addValueEventListener(new ValueEventListener() {
-             @Override
-             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                     String value = dataSnapshot.getValue().toString();
-                     textView.setText(value);
-//                 }
-             }
-
-             @Override
-             public void onCancelled(@NonNull DatabaseError databaseError) {
-
-             }
-         });
+//         mdatabase = FirebaseDatabase.getInstance().getReference().child("Notices").child("1");
+//         mdatabase.addValueEventListener(new ValueEventListener() {
+//             @Override
+//             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                     String value = dataSnapshot.getValue().toString();
+//                     textView.setText(value);
+//
+//
+//             }
+//
+//
+//             @Override
+//             public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//             }
+//         });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

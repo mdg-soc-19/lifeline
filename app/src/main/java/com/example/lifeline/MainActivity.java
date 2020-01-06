@@ -3,15 +3,18 @@ package com.example.lifeline;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -20,10 +23,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,13 +40,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     DatabaseReference mDatabase;
-    TextView name,email;
+    TextView name,email,notices;
     private Button btn;
     private SharedPreferenceConfig preferenceConfig;
     private DrawerLayout drawer;
     public FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction;
     Fragment fragment;
+    FirebaseAuth fAuth;
+    FirebaseUser CurrentUser;
+    ProgressBar progressBar;
+    DatabaseReference mdatabase;
+    private int Call_Premission_Code = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,32 +64,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
+        progressBar = findViewById(R.id.progressBar2);
+        fAuth = FirebaseAuth.getInstance();
+        CurrentUser = fAuth.getCurrentUser();
+        notices = findViewById(R.id.notices);
 
-        name = findViewById(R.id.profile_name);
-        email = findViewById(R.id.profile_email);
+        mdatabase = FirebaseDatabase.getInstance().getReference().child("Notices").child("1");
+        mdatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue().toString();
+                notices.setText(value);
+
+                progressBar.setVisibility(View.GONE);
+
+            }
 
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         NavigationView navigationView = findViewById(R.id.nev_view);
         navigationView.setNavigationItemSelectedListener(this);
-//        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String name1 = dataSnapshot.child("name").getValue().toString();
-//                Log.e("",""+name1);
-//                String email1 = dataSnapshot.child("email").getValue().toString();
-//                Log.e("",""+email1);
-//                name.setText(name1);
-//                email.setText(email1);
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+        updateNavHeader();
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -92,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
     }
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -110,9 +124,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_token_status) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
-//            Intent transfer = new Intent(MainActivity.this, tokenStatusFragment.class);
-//            transfer.putExtra("name", dataSnapshot1.getValue(Last_token.class).getLast_Doctor_name());
-//            transfer.putExtra("token", dataSnapshot1.getValue(Last_token.class).getLast_Token_No());
             startActivity(new Intent(getApplicationContext(),tokenStatusFragment.class));
 
         }
@@ -158,6 +169,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
+                            Toast.makeText(MainActivity.this, "You have already granted the permission", Toast.LENGTH_SHORT).show();
+                        }else {
+                            requestcallpermission();
+                        }
                         String number = "123454568678";
                         Intent intent = new Intent(Intent.ACTION_CALL);
                         intent.setData(Uri.parse("tel:" + number));
@@ -174,6 +190,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requestcallpermission(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CALL_PHONE)){
+            new AlertDialog.Builder(this).setTitle("Premission needed").setMessage("This permission is needed because of call").setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.CALL_PHONE},Call_Premission_Code);
+
+
+                }
+            })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).create().show();
+
+        }else {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CALL_PHONE},Call_Premission_Code);
+        }
+    }
+
+    public void updateNavHeader(){
+        NavigationView navigationView = findViewById(R.id.nev_view);
+        View headerView = navigationView.getHeaderView(0);
+//        name =  headerView.findViewById(R.id.profile_name);
+        email = headerView.findViewById(R.id.profile_email);
+//        name.setText(CurrentUser.getDisplayName());
+        email.setText(CurrentUser.getEmail());
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode= Call_Premission_Code){
+            
+        }
     }
 }
 
