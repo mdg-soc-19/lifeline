@@ -1,12 +1,5 @@
 package com.example.lifeline;
 
-<<<<<<< HEAD
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
-public class MainActivity extends AppCompatActivity {
-=======
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,7 +13,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,8 +26,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,58 +43,42 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    DatabaseReference mDatabase;
-    TextView name,email,notices;
-    private Button btn;
+    TextView name, email, notices;
     private SharedPreferenceConfig preferenceConfig;
     private DrawerLayout drawer;
     public FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction;
     Fragment fragment;
     FirebaseAuth fAuth;
+    FirebaseAuth.AuthStateListener fAuthlistener;
     FirebaseUser CurrentUser;
-    ProgressBar progressBar;
-    DatabaseReference mdatabase;
-    private int Call_Premission_Code = 1;
 
->>>>>>> Nav_bar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-<<<<<<< HEAD
-    }
-}
-=======
 
-        preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
+//        preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
-        progressBar = findViewById(R.id.progressBar2);
         fAuth = FirebaseAuth.getInstance();
         CurrentUser = fAuth.getCurrentUser();
-        notices = findViewById(R.id.notices);
-
-        mdatabase = FirebaseDatabase.getInstance().getReference().child("Notices").child("1");
-        mdatabase.addValueEventListener(new ValueEventListener() {
+        fAuthlistener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue().toString();
-                notices.setText(value);
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() == null) {
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+//                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(loginIntent);
 
-                progressBar.setVisibility(View.GONE);
-
+                }
             }
+        };
 
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         NavigationView navigationView = findViewById(R.id.nev_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -132,117 +113,63 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
 
-        }
-        else if (id == R.id.nav_token_status) {
+        } else if (id == R.id.nav_token_status) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
-            startActivity(new Intent(getApplicationContext(),tokenStatusFragment.class));
+            startActivity(new Intent(getApplicationContext(), tokenStatusFragment.class));
 
-        }
-        else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
-            startActivity(new Intent(getApplicationContext(),SettingsFragment.class));
+            startActivity(new Intent(getApplicationContext(), SettingsFragment.class));
 
 
-        }
-        else if (id == R.id.nav_logout) {
-            FirebaseAuth.getInstance().signOut();
-            preferenceConfig.writeLoginStatus(false);
-            startActivity(new Intent(this, LoginActivity.class));
+        } else if (id == R.id.nav_logout) {
+            fAuth.signOut();
+//            preferenceConfig.writeLoginStatus(false);
+//            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
-            return true;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+//        return super.onOptionsItemSelected(item);
     }
 
     @Override
-        public void onBackPressed () {
+    public void onBackPressed() {
         drawer = findViewById(R.id.drawer_layout);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
 
-            } else {
-                super.onBackPressed();
-            }
-    }
+        } else {
 
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.sos_btn: {
-
-                View btn = findViewById(R.id.sos_btn);
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
-                            Toast.makeText(MainActivity.this, "You have already granted the permission", Toast.LENGTH_SHORT).show();
-                        }else {
-                            requestcallpermission();
-                        }
-                        String number = "123454568678";
-                        Intent intent = new Intent(Intent.ACTION_CALL);
-                        intent.setData(Uri.parse("tel:" + number));
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            return;
-                        }
-                        startActivity(intent);
-                    }
-                });
-//                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                finish();
-                return true;
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void requestcallpermission(){
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CALL_PHONE)){
-            new AlertDialog.Builder(this).setTitle("Premission needed").setMessage("This permission is needed because of call").setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.CALL_PHONE},Call_Premission_Code);
-
-
-                }
-            })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).create().show();
-
-        }else {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CALL_PHONE},Call_Premission_Code);
+            Intent setIntent = new Intent(Intent.ACTION_MAIN);
+            setIntent.addCategory(Intent.CATEGORY_HOME);
+            setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(setIntent);
+            finish();
         }
     }
 
-    public void updateNavHeader(){
+
+    public void updateNavHeader() {
+
         NavigationView navigationView = findViewById(R.id.nev_view);
         View headerView = navigationView.getHeaderView(0);
 //        name =  headerView.findViewById(R.id.profile_name);
-        email = headerView.findViewById(R.id.profile_email);
+        if (CurrentUser != null) {
+            email = headerView.findViewById(R.id.profile_email);
 //        name.setText(CurrentUser.getDisplayName());
-        email.setText(CurrentUser.getEmail());
-
+            email.setText(CurrentUser.getEmail());
+        }
 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode= Call_Premission_Code){
-            
-        }
+    protected void onStart() {
+        super.onStart();
+        fAuth.addAuthStateListener(fAuthlistener);
     }
 }
 
->>>>>>> Nav_bar

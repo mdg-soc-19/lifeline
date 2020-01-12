@@ -25,8 +25,6 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
     private Context context;
     private ArrayList<Doctor> Doctors_List;
     public String DoctorName;
-//    View view1;
-//    RecyclerView.ViewHolder viewHolder1;
 
     public Doc_Adapter(ListOfDoctorsActivity c, ArrayList<Doctor> u) {
         context = c;
@@ -49,10 +47,6 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
         holder.name.setText(Doctors_List.get(position).getDoc_name());
         Picasso.with(context).load(Doctors_List.get(position).getDoc_profile()).into(holder.image);
 
-//        holder.enrollment.setText(users.get(position).getEnrollment());
-//        holder.branch.setText(users.get(position).getBranch());
-
-
         holder.relative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,7 +54,7 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 DoctorName = Doctors_List.get(position).getDoc_name();
-                Log.e("DOCTORNAME","YOYOYOYOYO"+DoctorName);
+                Log.e("DOCTORNAME", "YOYOYOYOYO" + DoctorName);
 
                 intent.putExtra("image", Doctors_List.get(position).getDoc_profile());
                 intent.putExtra("name", Doctors_List.get(position).getDoc_name());
@@ -70,8 +64,6 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
             }
         });
 
-//        Intent intent = new Intent(context, Doc_InfoActivity.class);
-//        context.startActivity(intent);
 
     }
 

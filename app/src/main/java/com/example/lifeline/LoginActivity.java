@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     EditText mEmail,mPassword;
@@ -24,7 +25,9 @@ public class LoginActivity extends AppCompatActivity {
     TextView mCreateBtn, mforgotpassword;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
+    private FirebaseAuth.AuthStateListener fAuthListener;
     SharedPreferenceConfig preferenceConfig;
+    int tok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +43,20 @@ public class LoginActivity extends AppCompatActivity {
         mforgotpassword = findViewById(R.id.createText2);
         fAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
+        fAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            if (firebaseAuth.getCurrentUser() != null){
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            }
+            }
+        };
 
-        if (preferenceConfig.readLoginStatus()){
-            startActivity(new Intent(this,MainActivity.class));
-            finish();
-
-        }
+//        if (preferenceConfig.readLoginStatus()){
+//            startActivity(new Intent(this,MainActivity.class));
+//            finish();
+//
+//        }
 
 
 
@@ -73,40 +84,48 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Authenticate the user
 
-                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(LoginActivity.this,new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if(task.isSuccessful()){
 
+
+                            tok =-1;
                             Toast.makeText(LoginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
 
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            preferenceConfig.writeLoginStatus(true);
-                            finish();
-                            mLoginBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//                            preferenceConfig.writeLoginStatus(true);
+//                            finish();
+//                            mLoginBtn.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
 //                                    preferenceConfig.writeLoginStatus(true);
 //                                    finish();
-                                }
-                            });
+//                                }
+//                            });
+
+//                            FirebaseUser user = fAuth.getCurrentUser();
+//                            updateUI(user);
+
                         }
                         else{
                             Toast.makeText(LoginActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
+//                            updateUI(null);
                         }
                     }
                 });
             }
         });
 
+
         mforgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = mEmail.getText().toString().trim();
-                fAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                fAuth.sendPasswordResetEmail(email).addOnCompleteListener(LoginActivity.this,new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -123,6 +142,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+
+
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,5 +151,34 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = fAuth.getCurrentUser();
+//        updateUI(currentUser);
+//    }
+
+//    private void updateUI(FirebaseUser currentUser) {
+//    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fAuth.addAuthStateListener(fAuthListener);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent setIntent = new Intent(Intent.ACTION_MAIN);
+        setIntent.addCategory(Intent.CATEGORY_HOME);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(setIntent);
+        finish();
+//        finish();
+//        return;
+
     }
 }

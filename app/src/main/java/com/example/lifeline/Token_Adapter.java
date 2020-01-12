@@ -16,8 +16,8 @@ public class Token_Adapter extends RecyclerView.Adapter<Token_Adapter.MyViewHold
 
     private tokenStatusFragment context;
     private ArrayList<Token> Doctors_Status;
-    public Token_Adapter(tokenStatusFragment c, ArrayList<Token> u)
-    {
+
+    public Token_Adapter(tokenStatusFragment c, ArrayList<Token> u) {
         context = c;
         Doctors_Status = u;
     }
@@ -25,7 +25,7 @@ public class Token_Adapter extends RecyclerView.Adapter<Token_Adapter.MyViewHold
     @NonNull
     @Override
     public Token_Adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_token_list,parent,false));
+        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_token_list, parent, false));
     }
 
     @Override
@@ -33,8 +33,6 @@ public class Token_Adapter extends RecyclerView.Adapter<Token_Adapter.MyViewHold
 
         holder.Doctor_name.setText(String.valueOf(Doctors_Status.get(position).getDoctor_name()));
         holder.token_no.setText(String.valueOf(Doctors_Status.get(position).getToken_No()));
-
-
 
 
     }
@@ -45,14 +43,13 @@ public class Token_Adapter extends RecyclerView.Adapter<Token_Adapter.MyViewHold
     }
 
 
-    class MyViewHolder extends RecyclerView.ViewHolder
-    {
-        TextView Doctor_name,token_no;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView Doctor_name, token_no;
 
-        public MyViewHolder(View itemView){
+        public MyViewHolder(View itemView) {
             super(itemView);
             Doctor_name = itemView.findViewById(R.id.Doctor_name);
-            token_no =  itemView.findViewById(R.id.token);
+            token_no = itemView.findViewById(R.id.token);
         }
 
     }

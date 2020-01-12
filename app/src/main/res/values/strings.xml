@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">LifeLine</string>
-<<<<<<< HEAD
-=======
     <string name="logout">Logout</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -12,5 +10,4 @@
     <string name="login_status_preference">com.example.lifeline_login_status_preference</string>
     <string name="button_preference">com.example.lifeline_button_preference</string>
     <string name="button_status_preference">com.example.lifeline_button_status_preference</string>
->>>>>>> Nav_bar
 </resources>

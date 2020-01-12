@@ -10,20 +10,30 @@ public class Doctor {
     public String doc_profile;
     public String doc_dpt;
     public String doc_info;
+    public int doc_token;
 
 
     public Doctor() {
 
     }
 
-    public Doctor(String doc_name, String doc_graduate, String doc_dpt, String doc_profile, String doc_info) {
+    public Doctor(String doc_name, String doc_graduate, String doc_dpt, String doc_profile, String doc_info, int doc_token) {
 
         this.doc_name = doc_name;
         this.doc_graduate = doc_graduate;
         this.doc_dpt = doc_dpt;
         this.doc_profile = doc_profile;
         this.doc_info = doc_info;
+        this.doc_token= doc_token;
 
+    }
+
+    public int getDoc_token() {
+        return doc_token;
+    }
+
+    public void setDoc_token(int doc_token) {
+        this.doc_token = doc_token;
     }
 
     public String getDoc_info() {
