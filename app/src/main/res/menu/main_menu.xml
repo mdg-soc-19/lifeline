@@ -4,7 +4,6 @@
     <item
         android:id="@+id/sos_btn"
         android:title="Emergency_btn"
-        android:icon="@drawable/sos"
         app:showAsAction="ifRoom"
         />
 

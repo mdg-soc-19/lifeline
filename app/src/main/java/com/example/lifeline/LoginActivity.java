@@ -3,6 +3,8 @@ package com.example.lifeline;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,7 +28,6 @@ public class LoginActivity extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fAuthListener;
-    SharedPreferenceConfig preferenceConfig;
     int tok;
 
     @Override
@@ -34,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
 
-        preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
+
 
         mEmail = findViewById(R.id.editmail);
         mPassword = findViewById(R.id.Password);
@@ -43,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         mforgotpassword = findViewById(R.id.createText2);
         fAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
+        final ProgressDialog dialog = new ProgressDialog(this);
+
         fAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -51,14 +54,6 @@ public class LoginActivity extends AppCompatActivity {
             }
             }
         };
-
-//        if (preferenceConfig.readLoginStatus()){
-//            startActivity(new Intent(this,MainActivity.class));
-//            finish();
-//
-//        }
-
-
 
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +75,9 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
+                dialog.setMessage("Signing you in...");
+                dialog.show();
 
                 // Authenticate the user
 
@@ -95,25 +92,13 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
 
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
-//                            preferenceConfig.writeLoginStatus(true);
-//                            finish();
-//                            mLoginBtn.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-//                                    preferenceConfig.writeLoginStatus(true);
-//                                    finish();
-//                                }
-//                            });
 
-//                            FirebaseUser user = fAuth.getCurrentUser();
-//                            updateUI(user);
 
                         }
                         else{
                             Toast.makeText(LoginActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-//                            updateUI(null);
+//                            progressBar.setVisibility(View.GONE);
+                            dialog.dismiss();
                         }
                     }
                 });
@@ -153,16 +138,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = fAuth.getCurrentUser();
-//        updateUI(currentUser);
-//    }
-
-//    private void updateUI(FirebaseUser currentUser) {
-//    }
 
     @Override
     protected void onStart() {
@@ -177,8 +152,5 @@ public class LoginActivity extends AppCompatActivity {
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(setIntent);
         finish();
-//        finish();
-//        return;
-
     }
 }

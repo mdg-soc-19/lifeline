@@ -14,10 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,10 +28,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 public class Doc_InfoActivity extends AppCompatActivity {
     ImageView Image;
     TextView name, graduate, dpt, doc_info;
@@ -44,18 +36,22 @@ public class Doc_InfoActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference fDatabase;
     private DatabaseReference tDatabase;
+    private DatabaseReference pDatabase;
     SharedPreferenceConfig preferenceConfig;
     FirebaseAuth dAuth;
     FirebaseUser Current_User;
-    //    ProgressDialog dialog;
-    int tok , TOKEN;
+    int tok;
+    int TOKEN;
+     int Status_token;
+     String User_Doctor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doc_info);
 
-        preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
+
+
 
 
         doc_info = findViewById(R.id.doc_info);
@@ -73,7 +69,7 @@ public class Doc_InfoActivity extends AppCompatActivity {
         graduate.setText(Doctorgraduate);
         dpt.setText(Doctordpt);
 
-        Picasso.with(this).load(Docimage).into(Image);
+        Picasso.get().load(Docimage).into(Image);
         dAuth = FirebaseAuth.getInstance();
         Current_User = dAuth.getCurrentUser();
         final String current_name = Current_User.getEmail();
@@ -97,13 +93,64 @@ public class Doc_InfoActivity extends AppCompatActivity {
             }
         });
 
+//        tDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(Current_User.getUid());
+//        tDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                User_Doctor = dataSnapshot.getValue(User.class).getMy_doctor();
+//                Log.e("asd","asd"+User_Doctor);
 
-        button = findViewById(R.id.bookbtn);
+//                TOKEN = dataSnapshot.getValue(User.class).getMy_token();
+//                Log.e("123","asdfg"+TOKEN);
+//                int random =0;
+//                if(TOKEN < Status_token){
+//                    tDatabase.child("my_token").setValue(random);
+//                }
+
+//            }
+
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
+
+//        pDatabase = FirebaseDatabase.getInstance().getReference().child("Doctors_Status");
+//        pDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+//                    if(User_Doctor.equals(dataSnapshot1.getValue(Token.class).getDoctor_name())){
+//                        Status_token= (dataSnapshot1.getValue(Token.class).getToken_No());
+//                        Log.e("145","asdfg"+Status_token);
+//
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
         tDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(Current_User.getUid());
         tDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User_Doctor = dataSnapshot.getValue(User.class).getMy_doctor();
+
                 TOKEN = dataSnapshot.getValue(User.class).getMy_token();
+                Log.e("123","asdfg"+TOKEN);
+//                int random = 0;
+//                if(9<12){
+//                    Log.e("149","asdfg"+"false");
+//                    tDatabase.child("my_token").setValue(random);
+//                }
+//                else {
+//                    Log.e("789","asdfg"+"true");
+//                }
 
             }
 
@@ -113,7 +160,7 @@ public class Doc_InfoActivity extends AppCompatActivity {
             }
         });
 
-
+            button = findViewById(R.id.bookbtn);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

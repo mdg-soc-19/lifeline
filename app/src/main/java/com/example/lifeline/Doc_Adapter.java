@@ -45,7 +45,7 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
         holder.graduate.setText(Doctors_List.get(position).getDoc_graduate());
         holder.dpt.setText(Doctors_List.get(position).getDoc_dpt());
         holder.name.setText(Doctors_List.get(position).getDoc_name());
-        Picasso.with(context).load(Doctors_List.get(position).getDoc_profile()).into(holder.image);
+        Picasso.get().load(Doctors_List.get(position).getDoc_profile()).into(holder.image);
 
         holder.relative.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -16,8 +16,7 @@
             android:label="List of Doctors"
             android:parentActivityName=".ListOfDoctorsActivity"></activity>
                 <activity android:name=".RegisterActivity" />
-                <activity android:name=".LoginActivity"
-                    >
+                <activity android:name=".LoginActivity">
 
 
             <intent-filter>
@@ -37,7 +36,9 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Doc_InfoActivity"/>
+        <activity android:name=".Doc_InfoActivity"
+            android:parentActivityName=".ListOfDoctorsActivity"/>
+
         
 
 
