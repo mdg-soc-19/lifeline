@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">LifeLine</string>
+    <string name="logout">Logout</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="data_passing">abcd</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_preference">com.example.lifeline_login_preference</string>
+    <string name="login_status_preference">com.example.lifeline_login_status_preference</string>
+    <string name="button_preference">com.example.lifeline_button_preference</string>
+    <string name="button_status_preference">com.example.lifeline_button_status_preference</string>
+</resources>
